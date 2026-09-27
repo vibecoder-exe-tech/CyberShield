@@ -1,0 +1,2676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#050812">
+<meta name="description" content="CyberShield V10 — local defensive code security scanner">
+<title>CyberShield V10</title>
+
+<style>
+:root{
+  --bg:#050812;
+  --panel:#0b1220;
+  --panel2:#101a2c;
+  --border:#1d2b43;
+  --border2:#355477;
+  --text:#f2f6ff;
+  --muted:#8d9ab0;
+  --blue:#4da3ff;
+  --cyan:#43d9ff;
+  --green:#38d996;
+  --yellow:#ffd166;
+  --orange:#ff9f43;
+  --red:#ff5c6c;
+  --purple:#a78bfa;
+  --shadow:0 20px 60px rgba(0,0,0,.35);
+}
+
+*{box-sizing:border-box}
+
+html{scroll-behavior:smooth}
+
+body{
+  margin:0;
+  min-height:100vh;
+  color:var(--text);
+  background:
+    radial-gradient(circle at 15% 0%,rgba(77,163,255,.13),transparent 28%),
+    radial-gradient(circle at 90% 10%,rgba(167,139,250,.10),transparent 25%),
+    var(--bg);
+  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+
+button,input,select,textarea{font:inherit}
+button{cursor:pointer;-webkit-tap-highlight-color:transparent}
+button:disabled{opacity:.5;cursor:not-allowed}
+
+header{
+  position:sticky;
+  top:0;
+  z-index:100;
+  background:rgba(5,8,18,.88);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  border-bottom:1px solid rgba(41,64,95,.65);
+}
+
+.nav{
+  max-width:1280px;
+  min-height:66px;
+  margin:auto;
+  padding:10px 18px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+}
+
+.brand{display:flex;align-items:center;gap:11px}
+
+.logo{
+  width:42px;
+  height:42px;
+  border-radius:13px;
+  display:grid;
+  place-items:center;
+  font-size:21px;
+  background:linear-gradient(135deg,#1677d2,#7645d8);
+  box-shadow:0 8px 30px rgba(77,163,255,.25);
+}
+
+.brand-title{font-weight:900}
+.brand-sub{color:var(--muted);font-size:10px;margin-top:2px}
+
+.nav-right{display:flex;gap:7px;flex-wrap:wrap}
+
+.badge{
+  padding:6px 10px;
+  border:1px solid var(--border);
+  border-radius:999px;
+  background:#0c1320;
+  color:#aebbd0;
+  font-size:10px;
+  font-weight:850;
+}
+
+.badge.green{color:#67e5a4}
+.badge.blue{color:#75baff}
+
+.container{
+  width:min(1280px,calc(100% - 28px));
+  margin:auto;
+}
+
+.section{margin-top:18px}
+
+.panel{
+  background:linear-gradient(180deg,rgba(15,24,41,.97),rgba(8,14,25,.97));
+  border:1px solid var(--border);
+  border-radius:20px;
+  box-shadow:var(--shadow);
+}
+
+.panel-inner{padding:22px}
+
+.section-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:17px;
+}
+
+.section-head h2{margin:0;font-size:19px}
+.section-head p{margin:4px 0 0;color:var(--muted);font-size:11px}
+
+/* HERO */
+
+.hero{
+  padding:28px 0 0;
+  display:grid;
+  grid-template-columns:minmax(0,1.5fr) minmax(280px,.7fr);
+  gap:18px;
+}
+
+.hero-main{
+  position:relative;
+  overflow:hidden;
+  padding:34px;
+  min-height:320px;
+  background:
+    radial-gradient(circle at 90% 20%,rgba(77,163,255,.16),transparent 32%),
+    linear-gradient(145deg,#101c30,#080e19);
+  border:1px solid var(--border);
+  border-radius:22px;
+  box-shadow:var(--shadow);
+}
+
+.eyebrow{
+  color:var(--cyan);
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:1.7px;
+}
+
+.hero h1{
+  margin:14px 0;
+  font-size:clamp(43px,7vw,76px);
+  line-height:.9;
+  letter-spacing:-4px;
+}
+
+.gradient{
+  background:linear-gradient(90deg,#fff,#75ddff,#86aaff);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+
+.hero-description{
+  max-width:650px;
+  color:#9eacc1;
+  line-height:1.7;
+  font-size:14px;
+}
+
+.hero-buttons{
+  display:flex;
+  gap:9px;
+  flex-wrap:wrap;
+  margin-top:23px;
+}
+
+.creator-card{
+  padding:25px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  background:linear-gradient(145deg,#141f33,#090f1b);
+  border:1px solid var(--border);
+  border-radius:22px;
+  box-shadow:var(--shadow);
+}
+
+.creator-kicker{
+  color:var(--purple);
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:1.3px;
+}
+
+.creator-name{
+  font-size:27px;
+  font-weight:950;
+  margin:9px 0 5px;
+}
+
+.creator-vibe{color:#c4cce0;font-weight:750}
+
+.creator-note{
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.65;
+  margin-top:12px;
+}
+
+.independent{
+  margin-top:17px;
+  padding:11px;
+  border-radius:12px;
+  border:1px solid rgba(167,139,250,.2);
+  background:rgba(167,139,250,.06);
+  color:#c7b9ff;
+  font-size:11px;
+  font-weight:800;
+}
+
+/* BUTTONS */
+
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+
+.btn{
+  border:1px solid var(--border);
+  background:#101a2b;
+  color:var(--text);
+  padding:10px 14px;
+  border-radius:11px;
+  font-size:12px;
+  font-weight:850;
+  transition:.18s;
+}
+
+.btn:hover{
+  transform:translateY(-1px);
+  border-color:var(--border2);
+}
+
+.btn.primary{
+  border:0;
+  background:linear-gradient(135deg,#247fd8,#4c5bdd);
+}
+
+.btn.success{
+  border:0;
+  background:linear-gradient(135deg,#15915b,#21c67b);
+}
+
+.btn.purple{
+  border:0;
+  background:linear-gradient(135deg,#6841b9,#8b5cf6);
+}
+
+.btn.warning{
+  border:0;
+  background:linear-gradient(135deg,#9b6b19,#d59b29);
+}
+
+.btn.danger{
+  border:0;
+  background:linear-gradient(135deg,#9e3042,#d74759);
+}
+
+/* FORM */
+
+.grid2{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:13px;
+}
+
+.field{
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+}
+
+.field label{
+  color:#aab8cd;
+  font-size:11px;
+  font-weight:850;
+}
+
+input,select,textarea{
+  width:100%;
+  color:var(--text);
+  background:#060c16;
+  border:1px solid var(--border);
+  border-radius:11px;
+  outline:none;
+}
+
+input,select{height:44px;padding:0 12px}
+
+textarea{
+  min-height:330px;
+  padding:14px;
+  resize:vertical;
+  line-height:1.55;
+  font-family:"SFMono-Regular",Consolas,monospace;
+  font-size:12px;
+}
+
+input:focus,select:focus,textarea:focus{
+  border-color:var(--blue);
+  box-shadow:0 0 0 3px rgba(77,163,255,.08);
+}
+
+.scanner-status{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  min-height:30px;
+  margin-top:10px;
+  color:var(--muted);
+  font-size:11px;
+}
+
+.status-dot{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:#53637c;
+}
+
+.status-dot.ready{
+  background:var(--green);
+  box-shadow:0 0 12px rgba(56,217,150,.5);
+}
+
+.status-dot.busy{background:var(--yellow)}
+.status-dot.error{background:var(--red)}
+
+/* REPORT */
+
+.report-grid{
+  display:grid;
+  grid-template-columns:1.5fr repeat(4,1fr);
+  gap:9px;
+}
+
+.stat{
+  min-height:100px;
+  padding:15px;
+  border:1px solid var(--border);
+  border-radius:14px;
+  background:#080e18;
+}
+
+.stat-label{
+  color:#7f8da5;
+  font-size:9px;
+  font-weight:850;
+  letter-spacing:1px;
+  text-transform:uppercase;
+}
+
+.stat-value{
+  margin-top:6px;
+  font-size:24px;
+  font-weight:950;
+}
+
+.score-wrap{display:flex;align-items:center;gap:13px}
+
+.score-ring{
+  width:76px;
+  height:76px;
+  flex:none;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  position:relative;
+  background:conic-gradient(var(--green) 0deg,#172338 0deg);
+}
+
+.score-ring:after{
+  content:"";
+  position:absolute;
+  width:59px;
+  height:59px;
+  border-radius:50%;
+  background:#0a111d;
+}
+
+.score-number{
+  position:relative;
+  z-index:2;
+  font-size:19px;
+  font-weight:950;
+}
+
+.progress{
+  height:6px;
+  margin-top:12px;
+  background:#172338;
+  border-radius:99px;
+  overflow:hidden;
+}
+
+.progress-bar{
+  width:0;
+  height:100%;
+  border-radius:99px;
+  background:linear-gradient(90deg,#ff5c6c,#ffd166,#38d996);
+  transition:width .45s;
+}
+
+.severity-row{
+  display:flex;
+  gap:7px;
+  flex-wrap:wrap;
+  margin-top:11px;
+}
+
+.severity-count{
+  padding:6px 9px;
+  border:1px solid var(--border);
+  border-radius:8px;
+  background:#080e18;
+  font-size:10px;
+  font-weight:850;
+}
+
+.severity-count.critical{color:#ff6574}
+.severity-count.high{color:#ff8590}
+.severity-count.medium{color:#ffd166}
+.severity-count.low{color:#75baff}
+
+/* FINDINGS */
+
+.finding-tools{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-bottom:13px;
+}
+
+.search{flex:1 1 220px}
+.search input{height:40px}
+
+.filters{display:flex;gap:6px;flex-wrap:wrap}
+
+.filter{
+  border:1px solid var(--border);
+  background:#080f1b;
+  color:#8998af;
+  padding:7px 10px;
+  border-radius:9px;
+  font-size:10px;
+  font-weight:850;
+}
+
+.filter.active{
+  color:white;
+  border-color:#36577e;
+  background:#13243a;
+}
+
+.findings{display:flex;flex-direction:column;gap:10px}
+
+.finding{
+  padding:15px;
+  border:1px solid var(--border);
+  border-radius:14px;
+  background:#0a111d;
+}
+
+.finding-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:10px;
+}
+
+.finding-title{font-weight:900}
+
+.finding-meta{
+  display:flex;
+  flex-wrap:wrap;
+  gap:5px;
+  margin-top:7px;
+}
+
+.meta{
+  padding:4px 7px;
+  border:1px solid #22334c;
+  border-radius:6px;
+  background:#0c1523;
+  color:#8fa0b8;
+  font-size:9px;
+  font-weight:750;
+}
+
+.severity-pill{
+  padding:5px 8px;
+  border-radius:7px;
+  font-size:9px;
+  font-weight:950;
+  text-transform:uppercase;
+}
+
+.severity-pill.critical{
+  color:#ff6574;
+  background:rgba(255,92,108,.12);
+}
+
+.severity-pill.high{
+  color:#ff8792;
+  background:rgba(255,92,108,.10);
+}
+
+.severity-pill.medium{
+  color:#ffd166;
+  background:rgba(255,209,102,.09);
+}
+
+.severity-pill.low{
+  color:#75baff;
+  background:rgba(77,163,255,.09);
+}
+
+.finding p{
+  color:#a2b0c5;
+  line-height:1.55;
+  font-size:12px;
+}
+
+.code-line{
+  overflow:auto;
+  padding:10px;
+  border:1px solid #17263b;
+  border-radius:99px;
+  border-radius:9px;
+  background:#040810;
+  color:#d9e5f7;
+  font:11px/1.5 "SFMono-Regular",Consolas,monospace;
+  white-space:pre;
+}
+
+.finding-actions{
+  display:flex;
+  gap:6px;
+  flex-wrap:wrap;
+  margin-top:9px;
+}
+
+.mini-btn{
+  border:1px solid var(--border);
+  background:#0e1828;
+  color:#aab8cd;
+  padding:6px 9px;
+  border-radius:7px;
+  font-size:10px;
+  font-weight:800;
+}
+
+.empty{
+  padding:28px;
+  text-align:center;
+  color:#718098;
+  border:1px dashed #263852;
+  border-radius:13px;
+  line-height:1.6;
+}
+
+/* FIX */
+
+.fix-panel{scroll-margin-top:82px}
+
+.fix-panel.flash{animation:flash .9s ease}
+
+@keyframes flash{
+  0%,100%{box-shadow:var(--shadow)}
+  40%{box-shadow:0 0 45px rgba(77,163,255,.35)}
+}
+
+.fix-stats{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  margin-bottom:13px;
+}
+
+.fix-badge{
+  padding:7px 9px;
+  border:1px solid var(--border);
+  border-radius:8px;
+  background:#080f1b;
+  color:#9eacc1;
+  font-size:10px;
+  font-weight:850;
+}
+
+.fix-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:13px;
+}
+
+.fix-code{min-height:350px}
+
+.message{
+  margin-top:11px;
+  padding:10px;
+  border-radius:9px;
+  background:#080f1b;
+  border:1px solid var(--border);
+  color:#9eacc1;
+  font-size:11px;
+  line-height:1.5;
+}
+
+.message.success{color:#67e5a4}
+.message.warning{color:#ffd166}
+.message.error{color:#ff7f8b}
+
+/* HISTORY */
+
+.history{display:flex;flex-direction:column;gap:7px}
+
+.history-item{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:11px;
+  border:1px solid var(--border);
+  border-radius:10px;
+  background:#080e18;
+  font-size:11px;
+}
+
+.history-item small{color:#718098}
+
+/* INFO */
+
+.info-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+}
+
+.info-card{
+  padding:15px;
+  border:1px solid var(--border);
+  border-radius:13px;
+  background:#080e18;
+}
+
+.info-card strong{
+  display:block;
+  margin-bottom:6px;
+  font-size:12px;
+}
+
+.info-card p{
+  margin:0;
+  color:#7f8da5;
+  line-height:1.55;
+  font-size:11px;
+}
+
+footer{
+  width:min(1280px,calc(100% - 28px));
+  margin:auto;
+  padding:35px 0;
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  flex-wrap:wrap;
+  color:#61718a;
+  font-size:10px;
+}
+
+#toast{
+  position:fixed;
+  left:50%;
+  bottom:20px;
+  z-index:300;
+  transform:translate(-50%,120px);
+  padding:11px 15px;
+  border:1px solid var(--border2);
+  border-radius:11px;
+  background:#101a2b;
+  color:white;
+  box-shadow:var(--shadow);
+  font-size:11px;
+  font-weight:800;
+  transition:.25s;
+  pointer-events:none;
+  max-width:calc(100% - 30px);
+  text-align:center;
+}
+
+#toast.show{transform:translate(-50%,0)}
+
+@media(max-width:950px){
+  .hero{grid-template-columns:1fr}
+  .report-grid{grid-template-columns:repeat(2,1fr)}
+  .info-grid{grid-template-columns:repeat(2,1fr)}
+}
+
+@media(max-width:650px){
+  .container{width:calc(100% - 20px)}
+  .nav{padding:9px 10px}
+  .nav-right{display:none}
+
+  .hero-main,
+  .creator-card,
+  .panel-inner{padding:17px}
+
+  .hero h1{
+    font-size:47px;
+    letter-spacing:-2.7px;
+  }
+
+  .grid2,
+  .fix-grid{grid-template-columns:1fr}
+
+  textarea{min-height:280px}
+
+  .report-grid{grid-template-columns:1fr 1fr}
+  .info-grid{grid-template-columns:1fr}
+
+  .btn{min-height:42px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="nav">
+    <div class="brand">
+      <div class="logo">🛡️</div>
+      <div>
+        <div class="brand-title">CyberShield V10</div>
+        <div class="brand-sub">Defensive Code Security Scanner</div>
+      </div>
+    </div>
+
+    <div class="nav-right">
+      <div class="badge green">● LOCAL ANALYSIS</div>
+      <div class="badge blue">NO CLOUD</div>
+      <div class="badge">INDEPENDENT PROJECT</div>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+
+<section class="hero">
+
+  <div class="hero-main">
+    <div class="eyebrow">DEFENSIVE CODE SECURITY</div>
+
+    <h1>
+      Scan.<br>
+      <span class="gradient">Understand. Fix.</span>
+    </h1>
+
+    <div class="hero-description">
+      A browser-based static security scanner for identifying common
+      security patterns in code you own or are authorized to review.
+      Analysis happens locally in your browser.
+    </div>
+
+    <div class="hero-buttons">
+      <button class="btn primary" id="heroScan">🔍 Start Scanning</button>
+      <button class="btn" id="heroFindings">🚨 View Findings</button>
+    </div>
+  </div>
+
+  <div class="creator-card">
+    <div class="creator-kicker">BUILT INDEPENDENTLY</div>
+
+    <div class="creator-name">Vedant Dangwal</div>
+
+    <div class="creator-vibe">Created by a Vibe Coder 🚀</div>
+
+    <div class="creator-note">
+      14 years old • Learning by building • Independent project
+    </div>
+
+    <div class="independent">
+      ⚡ Created by a Vibe Coder — Vedant Dangwal • 14 years 🚀
+    </div>
+  </div>
+
+</section>
+
+
+<section class="section" id="scannerSection">
+
+  <div class="panel">
+    <div class="panel-inner">
+
+      <div class="section-head">
+        <div>
+          <h2>🔎 Code Scanner</h2>
+          <p>Local static analysis • Your code is not uploaded</p>
+        </div>
+
+        <div class="badge green">LOCAL ENGINE</div>
+      </div>
+
+      <div class="grid2">
+
+        <div class="field">
+          <label for="fileName">FILE NAME</label>
+          <input id="fileName" value="untitled.js" autocomplete="off">
+        </div>
+
+        <div class="field">
+          <label for="language">LANGUAGE</label>
+
+          <select id="language">
+            <option value="auto">Auto Detect</option>
+            <option value="javascript">JavaScript</option>
+            <option value="html">HTML</option>
+            <option value="css">CSS</option>
+            <option value="python">Python</option>
+            <option value="java">Java</option>
+            <option value="cpp">C / C++</option>
+            <option value="php">PHP</option>
+            <option value="sql">SQL</option>
+          </select>
+        </div>
+
+      </div>
+
+      <div class="field" style="margin-top:13px">
+        <label for="code">SOURCE CODE</label>
+
+        <textarea
+          id="code"
+          spellcheck="false"
+          autocapitalize="off"
+          autocomplete="off"
+          autocorrect="off"
+          placeholder="// Paste code you own or are authorized to review here..."></textarea>
+      </div>
+
+      <div class="actions" style="margin-top:12px">
+
+        <button class="btn" id="pasteBtn">📋 Paste</button>
+        <button class="btn primary" id="scanBtn">🔍 Scan Code</button>
+        <button class="btn success" id="fixBtn">🔧 Fix My Code</button>
+        <button class="btn" id="copyBtn">📄 Copy</button>
+        <button class="btn danger" id="clearBtn">✕ Clear</button>
+
+      </div>
+
+      <div class="scanner-status">
+        <span class="status-dot ready" id="statusDot"></span>
+        <span id="statusText">Scanner ready • Local analysis enabled</span>
+      </div>
+
+    </div>
+  </div>
+
+</section>
+
+
+<section class="section" id="reportSection">
+
+  <div class="panel">
+    <div class="panel-inner">
+
+      <div class="section-head">
+        <div>
+          <h2>📊 Security Report</h2>
+          <p id="findingSummary">Waiting for your first scan</p>
+        </div>
+
+        <div class="badge" id="scanTime">NOT SCANNED</div>
+      </div>
+
+      <div class="report-grid">
+
+        <div class="stat">
+
+          <div class="score-wrap">
+
+            <div class="score-ring" id="scoreRing">
+              <div class="score-number" id="scoreNumber">—</div>
+            </div>
+
+            <div>
+              <div class="stat-label">Security Score</div>
+              <div class="stat-value" id="riskText">—</div>
+            </div>
+
+          </div>
+
+          <div class="progress">
+            <div class="progress-bar" id="scoreBar"></div>
+          </div>
+
+        </div>
+
+        <div class="stat">
+          <div class="stat-label">Findings</div>
+          <div class="stat-value" id="findingCount">0</div>
+        </div>
+
+        <div class="stat">
+          <div class="stat-label">Health</div>
+          <div class="stat-value" id="healthValue">—</div>
+        </div>
+
+        <div class="stat">
+          <div class="stat-label">Confidence</div>
+          <div class="stat-value" id="confidenceValue">—</div>
+        </div>
+
+        <div class="stat">
+          <div class="stat-label">Language</div>
+          <div class="stat-value" id="detectedLanguage">—</div>
+        </div>
+
+      </div>
+
+      <div class="severity-row">
+        <div class="severity-count critical">Critical: <span id="criticalCount">0</span></div>
+        <div class="severity-count high">High: <span id="highCount">0</span></div>
+        <div class="severity-count medium">Medium: <span id="mediumCount">0</span></div>
+        <div class="severity-count low">Low: <span id="lowCount">0</span></div>
+      </div>
+
+    </div>
+  </div>
+
+</section>
+
+
+<section class="section" id="findingsSection">
+
+  <div class="panel">
+    <div class="panel-inner">
+
+      <div class="section-head">
+        <div>
+          <h2>🚨 Findings</h2>
+          <p>Detected security and code-quality patterns</p>
+        </div>
+      </div>
+
+      <div class="finding-tools">
+
+        <div class="search">
+          <input
+            id="findingSearch"
+            placeholder="Search findings, IDs, categories..."
+            autocomplete="off">
+        </div>
+
+        <div class="filters">
+          <button class="filter active" data-filter="all">All</button>
+          <button class="filter" data-filter="critical">Critical</button>
+          <button class="filter" data-filter="high">High</button>
+          <button class="filter" data-filter="medium">Medium</button>
+          <button class="filter" data-filter="low">Low</button>
+        </div>
+
+      </div>
+
+      <div id="findings" class="findings">
+        <div class="empty">🛡️ Run a scan to see findings here.</div>
+      </div>
+
+    </div>
+  </div>
+
+</section>
+
+
+<section class="section" id="fixSection">
+
+  <div class="panel fix-panel" id="fixPanel">
+
+    <div class="panel-inner">
+
+      <div class="section-head">
+        <div>
+          <h2>🔧 Fix My Code</h2>
+          <p>Local fix suggestions • Human review recommended</p>
+        </div>
+
+        <div class="badge">REVIEW BEFORE USE</div>
+      </div>
+
+      <div class="fix-stats">
+
+        <div class="fix-badge">
+          Original: <span id="originalCount">0</span>
+        </div>
+
+        <div class="fix-badge">
+          Resolved: <span id="resolvedCount">0</span>
+        </div>
+
+        <div class="fix-badge">
+          Remaining: <span id="remainingCount">0</span>
+        </div>
+
+        <div class="fix-badge">
+          Manual: <span id="manualCount">0</span>
+        </div>
+
+      </div>
+
+      <div class="fix-grid">
+
+        <div class="field">
+          <label for="originalCode">ORIGINAL CODE</label>
+          <textarea id="originalCode" class="fix-code" readonly></textarea>
+        </div>
+
+        <div class="field">
+          <label for="fixedCode">PROPOSED CODE</label>
+          <textarea id="fixedCode" class="fix-code" spellcheck="false"></textarea>
+        </div>
+
+      </div>
+
+      <div class="actions" style="margin-top:12px">
+
+        <button class="btn success" id="copyFixedBtn">📋 Copy Fixed</button>
+        <button class="btn" id="downloadBtn">⬇️ Download</button>
+        <button class="btn purple" id="useFixedBtn">↩️ Use Fixed Code</button>
+        <button class="btn warning" id="verifyBtn">✓ Verify Fix</button>
+
+      </div>
+
+      <div id="verificationMessage"></div>
+
+    </div>
+  </div>
+
+</section>
+
+
+<section class="section">
+
+  <div class="panel">
+    <div class="panel-inner">
+
+      <div class="section-head">
+
+        <div>
+          <h2>🕘 Scan History</h2>
+          <p>Stored locally on this device</p>
+        </div>
+
+        <button class="mini-btn" id="clearHistoryBtn">
+          Clear History
+        </button>
+
+      </div>
+
+      <div id="history" class="history">
+        <div class="empty">No scans stored yet.</div>
+      </div>
+
+    </div>
+  </div>
+
+</section>
+
+
+<section class="section">
+
+  <div class="panel">
+    <div class="panel-inner">
+
+      <div class="section-head">
+        <div>
+          <h2>ℹ️ About CyberShield</h2>
+          <p>Defensive, local-first code analysis</p>
+        </div>
+      </div>
+
+      <div class="info-grid">
+
+        <div class="info-card">
+          <strong>🔒 Local First</strong>
+          <p>
+            Analysis happens inside the browser. No server or API is
+            required to scan code.
+          </p>
+        </div>
+
+        <div class="info-card">
+          <strong>🛡️ Defensive</strong>
+          <p>
+            Designed to identify common security patterns in code
+            you own or are authorized to review.
+          </p>
+        </div>
+
+        <div class="info-card">
+          <strong>🚫 No Attack Tools</strong>
+          <p>
+            CyberShield is designed for defensive code review,
+            not unauthorized access or credential theft.
+          </p>
+        </div>
+
+        <div class="info-card">
+          <strong>🚀 Vibe Coder</strong>
+          <p>
+            Created independently by Vedant Dangwal, a 14-year-old
+            vibe coder.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+</section>
+
+</main>
+
+
+<footer>
+  <div>🛡️ CyberShield V10 • Independent Project</div>
+  <div>Created by a Vibe Coder — Vedant Dangwal • 14 years 🚀</div>
+</footer>
+
+<div id="toast"></div>
+
+
+<script>
+"use strict";
+
+/* =========================================================
+   RULE ENGINE
+========================================================= */
+
+const RULES = [
+
+  {
+    id:"CS001",
+    title:"Hardcoded Password",
+    category:"Secrets",
+    severity:"high",
+    confidence:"High",
+    fixable:true,
+    languages:null,
+    patterns:[
+      /\b(password|passwd|pwd)\s*=\s*["'`][^"'`]+["'`]/gi
+    ],
+    why:"A password-like value appears directly in source code.",
+    recommendation:"Move credentials outside source code and load them through secure configuration."
+  },
+
+  {
+    id:"CS002",
+    title:"Hardcoded API Key or Token",
+    category:"Secrets",
+    severity:"high",
+    confidence:"High",
+    fixable:true,
+    languages:null,
+    patterns:[
+      /\b(api[_-]?key|token|access[_-]?token|secret[_-]?key)\s*=\s*["'`][^"'`]+["'`]/gi
+    ],
+    why:"A token or API-key-like value appears directly in source code.",
+    recommendation:"Store secrets outside source code and load them securely."
+  },
+
+  {
+    id:"CS003",
+    title:"Insecure HTTP Connection",
+    category:"Transport Security",
+    severity:"medium",
+    confidence:"High",
+    fixable:true,
+    languages:null,
+    patterns:[
+      /http:\/\/[^\s"'`<>]+/gi
+    ],
+    why:"An unencrypted HTTP URL was detected.",
+    recommendation:"Use HTTPS when the destination supports it."
+  },
+
+  {
+    id:"CS004",
+    title:"Dangerous eval() Usage",
+    category:"Code Execution",
+    severity:"high",
+    confidence:"High",
+    fixable:false,
+    languages:["javascript","python"],
+    patterns:[
+      /\beval\s*\(/gi
+    ],
+    why:"eval() dynamically executes code.",
+    recommendation:"Use structured parsing or explicit functions instead of dynamic execution."
+  },
+
+  {
+    id:"CS005",
+    title:"Dynamic Function Construction",
+    category:"Code Execution",
+    severity:"high",
+    confidence:"High",
+    fixable:false,
+    languages:["javascript"],
+    patterns:[
+      /\bnew\s+Function\s*\(/gi
+    ],
+    why:"The Function constructor creates executable code dynamically.",
+    recommendation:"Replace dynamic code generation with explicit functions."
+  },
+
+  {
+    id:"CS006",
+    title:"document.write() Usage",
+    category:"DOM Security",
+    severity:"medium",
+    confidence:"High",
+    fixable:false,
+    languages:["javascript","html"],
+    patterns:[
+      /\bdocument\.write\s*\(/gi
+    ],
+    why:"document.write() can create unexpected document behavior.",
+    recommendation:"Prefer safer DOM APIs such as createElement(), append(), or textContent."
+  },
+
+  {
+    id:"CS007",
+    title:"Potential DOM Injection",
+    category:"DOM Security",
+    severity:"medium",
+    confidence:"Medium",
+    fixable:true,
+    languages:["javascript","html"],
+    patterns:[
+      /\.innerHTML\s*=/gi
+    ],
+    why:"Direct innerHTML assignment can become dangerous with untrusted content.",
+    recommendation:"Prefer textContent for plain text or trusted sanitization for HTML."
+  },
+
+  {
+    id:"CS008",
+    title:"Debug Logging",
+    category:"Code Quality",
+    severity:"low",
+    confidence:"High",
+    fixable:true,
+    languages:null,
+    patterns:[
+      /\bconsole\.(log|debug|info)\s*\(/gi
+    ],
+    why:"Debug logs can expose information or create production noise.",
+    recommendation:"Remove or control debug logging before production."
+  },
+
+  {
+    id:"CS009",
+    title:"Python exec()",
+    category:"Code Execution",
+    severity:"high",
+    confidence:"High",
+    fixable:false,
+    languages:["python"],
+    patterns:[
+      /\bexec\s*\(/gi
+    ],
+    why:"Python exec() dynamically executes code.",
+    recommendation:"Avoid dynamic execution for externally controlled content."
+  },
+
+  {
+    id:"CS010",
+    title:"Python Shell Execution",
+    category:"Command Execution",
+    severity:"high",
+    confidence:"High",
+    fixable:false,
+    languages:["python"],
+    patterns:[
+      /\bsubprocess\.\w+\s*\([^)]*shell\s*=\s*True/gi
+    ],
+    why:"shell=True can increase command-injection risk when command construction is unsafe.",
+    recommendation:"Avoid shell=True where possible and pass validated arguments as a list."
+  },
+
+  {
+    id:"CS011",
+    title:"Java Runtime Command Execution",
+    category:"Command Execution",
+    severity:"high",
+    confidence:"High",
+    fixable:false,
+    languages:["java"],
+    patterns:[
+      /\bRuntime\.getRuntime\s*\(\s*\)\s*\.exec\s*\(/gi
+    ],
+    why:"Runtime.exec() can execute operating-system commands.",
+    recommendation:"Avoid operating-system commands where possible and validate structured inputs."
+  },
+
+  {
+    id:"CS012",
+    title:"JDBC Statement Construction",
+    category:"Database Security",
+    severity:"medium",
+    confidence:"Medium",
+    fixable:false,
+    languages:["java"],
+    patterns:[
+      /\.createStatement\s*\(/gi
+    ],
+    why:"Direct Statement construction can become risky when SQL is dynamically built.",
+    recommendation:"Prefer PreparedStatement with parameterized values."
+  },
+
+  {
+    id:"CS013",
+    title:"Unsafe C/C++ String Function",
+    category:"Memory Safety",
+    severity:"high",
+    confidence:"Medium",
+    fixable:false,
+    languages:["cpp"],
+    patterns:[
+      /\b(strcpy|strcat|sprintf|gets)\s*\(/gi
+    ],
+    why:"Legacy string APIs can contribute to memory-safety vulnerabilities.",
+    recommendation:"Use safer bounded APIs or modern C++ string abstractions."
+  },
+
+  {
+    id:"CS014",
+    title:"C/C++ system() Usage",
+    category:"Command Execution",
+    severity:"high",
+    confidence:"High",
+    fixable:false,
+    languages:["cpp"],
+    patterns:[
+      /\bsystem\s*\(/gi
+    ],
+    why:"system() executes operating-system commands.",
+    recommendation:"Avoid system() where possible and use safer structured APIs."
+  },
+
+  {
+    id:"CS015",
+    title:"PHP Command Execution",
+    category:"Command Execution",
+    severity:"high",
+    confidence:"High",
+    fixable:false,
+    languages:["php"],
+    patterns:[
+      /\b(system|shell_exec|passthru|exec)\s*\(/gi
+    ],
+    why:"PHP command-execution functions can become dangerous with unsafe input.",
+    recommendation:"Avoid shell commands where possible and validate external input."
+  },
+
+  {
+    id:"CS016",
+    title:"Inline JavaScript Event Handler",
+    category:"HTML Security",
+    severity:"medium",
+    confidence:"Medium",
+    fixable:false,
+    languages:["html"],
+    patterns:[
+      /\bon(click|load|error|mouseover|focus|submit)\s*=/gi
+    ],
+    why:"Inline handlers can make strict security policies harder to implement.",
+    recommendation:"Prefer addEventListener() in JavaScript."
+  },
+
+  {
+    id:"CS017",
+    title:"Embedded Script",
+    category:"HTML Security",
+    severity:"low",
+    confidence:"High",
+    fixable:false,
+    languages:["html"],
+    patterns:[
+      /<script\b/gi
+    ],
+    why:"Embedded scripts can complicate Content Security Policy and code separation.",
+    recommendation:"Prefer external scripts with an appropriate Content Security Policy."
+  },
+
+  {
+    id:"CS018",
+    title:"Potential Dynamic SQL",
+    category:"Database Security",
+    severity:"high",
+    confidence:"Medium",
+    fixable:false,
+    languages:["sql"],
+    patterns:[
+      /\b(SELECT|UPDATE|DELETE|INSERT)\b[\s\S]{0,120}(\+|\|\||CONCAT\s*\()/gi
+    ],
+    why:"Dynamically constructed SQL can become dangerous when values are not parameterized.",
+    recommendation:"Use parameterized queries or prepared statements."
+  },
+
+  {
+    id:"CS019",
+    title:"Weak Randomness",
+    category:"Cryptography",
+    severity:"medium",
+    confidence:"Medium",
+    fixable:false,
+    languages:["javascript"],
+    patterns:[
+      /\bMath\.random\s*\(/gi
+    ],
+    why:"Math.random() is not designed for security-sensitive randomness.",
+    recommendation:"Use a cryptographically secure random API for security-sensitive values."
+  },
+
+  {
+    id:"CS020",
+    title:"document.cookie Access",
+    category:"Browser Security",
+    severity:"medium",
+    confidence:"Medium",
+    fixable:false,
+    languages:["javascript"],
+    patterns:[
+      /\bdocument\.cookie\b/gi
+    ],
+    why:"Cookie access deserves careful review when authentication or sensitive data is involved.",
+    recommendation:"Use secure cookie settings such as HttpOnly, Secure, and appropriate SameSite configuration."
+  },
+
+  {
+    id:"CS021",
+    title:"Private Key Material",
+    category:"Secrets",
+    severity:"critical",
+    confidence:"High",
+    fixable:false,
+    languages:null,
+    patterns:[
+      /-----BEGIN (?:RSA |EC |OPENSSH |DSA )?PRIVATE KEY-----/gi
+    ],
+    why:"Private key material appears in source code.",
+    recommendation:"Remove private keys from source control and rotate exposed credentials."
+  }
+
+];
+
+
+/* =========================================================
+   DOM REFERENCES
+========================================================= */
+
+const $ = id => document.getElementById(id);
+
+const codeEl = $("code");
+const fileNameEl = $("fileName");
+const languageEl = $("language");
+
+const findingsEl = $("findings");
+const findingSearchEl = $("findingSearch");
+
+const scoreNumberEl = $("scoreNumber");
+const scoreRingEl = $("scoreRing");
+const scoreBarEl = $("scoreBar");
+const riskTextEl = $("riskText");
+
+const findingCountEl = $("findingCount");
+const healthValueEl = $("healthValue");
+const confidenceValueEl = $("confidenceValue");
+const detectedLanguageEl = $("detectedLanguage");
+
+const criticalCountEl = $("criticalCount");
+const highCountEl = $("highCount");
+const mediumCountEl = $("mediumCount");
+const lowCountEl = $("lowCount");
+
+const scanTimeEl = $("scanTime");
+const findingSummaryEl = $("findingSummary");
+
+const originalCodeEl = $("originalCode");
+const fixedCodeEl = $("fixedCode");
+
+const originalCountEl = $("originalCount");
+const resolvedCountEl = $("resolvedCount");
+const remainingCountEl = $("remainingCount");
+const manualCountEl = $("manualCount");
+
+const verificationMessageEl = $("verificationMessage");
+const historyEl = $("history");
+
+const toastEl = $("toast");
+const statusDotEl = $("statusDot");
+const statusTextEl = $("statusText");
+const fixPanelEl = $("fixPanel");
+
+let currentFindings = [];
+let currentLanguage = "javascript";
+let activeFilter = "all";
+let toastTimer = null;
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+function toast(message){
+
+  toastEl.textContent = message;
+  toastEl.classList.add("show");
+
+  clearTimeout(toastTimer);
+
+  toastTimer = setTimeout(function(){
+    toastEl.classList.remove("show");
+  },2200);
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+function setStatus(type,message){
+
+  statusDotEl.className = "status-dot " + type;
+  statusTextEl.textContent = message;
+}
+
+
+/* =========================================================
+   STORAGE
+========================================================= */
+
+function getHistory(){
+
+  try{
+    const data = localStorage.getItem("cybershield_history");
+    return data ? JSON.parse(data) : [];
+  }catch{
+    return [];
+  }
+}
+
+
+function setHistory(history){
+
+  try{
+    localStorage.setItem(
+      "cybershield_history",
+      JSON.stringify(history)
+    );
+  }catch{}
+}
+
+
+/* =========================================================
+   LANGUAGE DETECTION
+========================================================= */
+
+function detectLanguage(code,fileName){
+
+  if(languageEl.value !== "auto"){
+    return languageEl.value;
+  }
+
+  const name = String(fileName || "").toLowerCase();
+
+  if(name.endsWith(".py")) return "python";
+  if(name.endsWith(".java")) return "java";
+  if(name.endsWith(".php")) return "php";
+  if(name.endsWith(".html") || name.endsWith(".htm")) return "html";
+  if(name.endsWith(".css")) return "css";
+  if(name.endsWith(".sql")) return "sql";
+
+  if(
+    name.endsWith(".cpp") ||
+    name.endsWith(".cc") ||
+    name.endsWith(".c") ||
+    name.endsWith(".h") ||
+    name.endsWith(".hpp")
+  ){
+    return "cpp";
+  }
+
+  if(/^\s*<!doctype\s+html/i.test(code)) return "html";
+  if(/<html[\s>]/i.test(code)) return "html";
+  if(/<\?php/i.test(code)) return "php";
+  if(/\bdef\s+\w+\s*\(/.test(code)) return "python";
+  if(/\b(public|private|protected)\s+(class|static|void)\b/.test(code)) return "java";
+  if(/#include\s*[<"]/.test(code)) return "cpp";
+  if(/\b(SELECT|INSERT|UPDATE|DELETE)\b/i.test(code)) return "sql";
+
+  return "javascript";
+}
+
+
+/* =========================================================
+   ANALYZER
+========================================================= */
+
+function analyze(code,language){
+
+  const results = [];
+  const lines = code.split("\n");
+
+  RULES.forEach(function(rule){
+
+    if(
+      rule.languages &&
+      !rule.languages.includes(language)
+    ){
+      return;
+    }
+
+    rule.patterns.forEach(function(pattern){
+
+      pattern.lastIndex = 0;
+
+      let match;
+
+      while((match = pattern.exec(code)) !== null){
+
+        const before = code.slice(0,match.index);
+        const line = before.split("\n").length;
+        const lastNewline = before.lastIndexOf("\n");
+
+        const column =
+          lastNewline === -1
+            ? match.index + 1
+            : match.index - lastNewline;
+
+        results.push({
+          rule:rule,
+          match:match[0],
+          line:line,
+          column:column,
+          sourceLine:lines[line - 1] || ""
+        });
+
+        if(match[0] === ""){
+          pattern.lastIndex++;
+        }
+      }
+    });
+  });
+
+  return results;
+}
+
+
+/* =========================================================
+   SCORE
+========================================================= */
+
+function calculateScore(findings){
+
+  const penalties = {
+    critical:30,
+    high:18,
+    medium:8,
+    low:2
+  };
+
+  let score = 100;
+
+  findings.forEach(function(finding){
+    score -= penalties[finding.rule.severity] || 0;
+  });
+
+  return Math.max(
+    0,
+    Math.min(100,Math.round(score))
+  );
+}
+
+
+function getRisk(score){
+
+  if(score < 40) return "HIGH";
+  if(score < 70) return "MEDIUM";
+  if(score < 90) return "LOW";
+
+  return "GOOD";
+}
+
+
+/* =========================================================
+   ESCAPE HTML
+========================================================= */
+
+function escapeHTML(value){
+
+  return String(value)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
+
+
+/* =========================================================
+   REPORT
+========================================================= */
+
+function updateReport(findings,elapsed){
+
+  const score = calculateScore(findings);
+
+  const critical = findings.filter(function(f){
+    return f.rule.severity === "critical";
+  }).length;
+
+  const high = findings.filter(function(f){
+    return f.rule.severity === "high";
+  }).length;
+
+  const medium = findings.filter(function(f){
+    return f.rule.severity === "medium";
+  }).length;
+
+  const low = findings.filter(function(f){
+    return f.rule.severity === "low";
+  }).length;
+
+  const confidenceValues = findings.map(function(f){
+    return f.rule.confidence === "High" ? 100 : 80;
+  });
+
+  const confidence = confidenceValues.length
+    ? Math.round(
+        confidenceValues.reduce(function(a,b){
+          return a + b;
+        },0) / confidenceValues.length
+      )
+    : 100;
+
+  scoreNumberEl.textContent = score;
+  riskTextEl.textContent = getRisk(score);
+
+  findingCountEl.textContent = findings.length;
+  healthValueEl.textContent = score + "/100";
+  confidenceValueEl.textContent = confidence + "%";
+  detectedLanguageEl.textContent = currentLanguage;
+
+  criticalCountEl.textContent = critical;
+  highCountEl.textContent = high;
+  mediumCountEl.textContent = medium;
+  lowCountEl.textContent = low;
+
+  scoreBarEl.style.width = score + "%";
+
+  const degrees = score * 3.6;
+
+  scoreRingEl.style.background =
+    "conic-gradient(var(--green) " +
+    degrees +
+    "deg,#172338 " +
+    degrees +
+    "deg)";
+
+  scanTimeEl.textContent = elapsed + " ms";
+
+  findingSummaryEl.textContent =
+    findings.length +
+    " finding" +
+    (findings.length === 1 ? "" : "s") +
+    " detected";
+}
+
+
+/* =========================================================
+   RENDER FINDINGS
+========================================================= */
+
+function renderFindings(){
+
+  const query =
+    findingSearchEl.value.trim().toLowerCase();
+
+  const filtered = currentFindings.filter(function(finding){
+
+    const severityMatch =
+      activeFilter === "all" ||
+      finding.rule.severity === activeFilter;
+
+    const searchText = [
+      finding.rule.id,
+      finding.rule.title,
+      finding.rule.category,
+      finding.rule.why,
+      finding.rule.recommendation,
+      finding.sourceLine
+    ].join(" ").toLowerCase();
+
+    return (
+      severityMatch &&
+      (!query || searchText.includes(query))
+    );
+  });
+
+  if(!filtered.length){
+
+    findingsEl.innerHTML =
+      '<div class="empty">' +
+      (
+        currentFindings.length
+          ? "No findings match this filter."
+          : "🛡️ Run a scan to see findings here."
+      ) +
+      "</div>";
+
+    return;
+  }
+
+  findingsEl.innerHTML = filtered.map(function(finding){
+
+    const index = currentFindings.indexOf(finding);
+    const rule = finding.rule;
+
+    return `
+      <article class="finding">
+
+        <div class="finding-top">
+
+          <div>
+
+            <div class="finding-title">
+              ${escapeHTML(rule.title)}
+            </div>
+
+            <div class="finding-meta">
+
+              <span class="meta">
+                ${escapeHTML(rule.id)}
+              </span>
+
+              <span class="meta">
+                ${escapeHTML(rule.category)}
+              </span>
+
+              <span class="meta">
+                Line ${finding.line}:${finding.column}
+              </span>
+
+              <span class="meta">
+                Confidence: ${escapeHTML(rule.confidence)}
+              </span>
+
+              <span class="meta">
+                ${rule.fixable ? "Auto-fixable" : "Manual review"}
+              </span>
+
+            </div>
+
+          </div>
+
+          <div class="severity-pill ${rule.severity}">
+            ${escapeHTML(rule.severity)}
+          </div>
+
+        </div>
+
+        <p>
+          <strong>Why:</strong>
+          ${escapeHTML(rule.why)}
+        </p>
+
+        <p>
+          <strong>Recommendation:</strong>
+          ${escapeHTML(rule.recommendation)}
+        </p>
+
+        <div class="code-line">
+          ${escapeHTML(finding.sourceLine)}
+        </div>
+
+        <div class="finding-actions">
+
+          <button
+            class="mini-btn"
+            data-action="focus"
+            data-line="${finding.line}">
+            📍 Focus Line
+          </button>
+
+          <button
+            class="mini-btn"
+            data-action="copy"
+            data-index="${index}">
+            📋 Copy Detection
+          </button>
+
+        </div>
+
+      </article>
+    `;
+
+  }).join("");
+}
+
+
+/* =========================================================
+   SAVE HISTORY
+========================================================= */
+
+function saveHistory(findings,elapsed){
+
+  const history = getHistory();
+
+  history.unshift({
+    file:fileNameEl.value || "untitled.js",
+    language:currentLanguage,
+    score:calculateScore(findings),
+    findings:findings.length,
+    time:new Date().toLocaleString(),
+    scanTime:elapsed
+  });
+
+  setHistory(history.slice(0,12));
+
+  renderHistory();
+}
+
+
+/* =========================================================
+   SCAN
+========================================================= */
+
+function scan(){
+
+  const code = codeEl.value;
+
+  if(!code.trim()){
+
+    setStatus("error","Nothing to scan");
+    toast("Paste code first");
+
+    return;
+  }
+
+  setStatus("busy","Scanning locally...");
+
+  const start = performance.now();
+
+  currentLanguage =
+    detectLanguage(code,fileNameEl.value);
+
+  currentFindings =
+    analyze(code,currentLanguage);
+
+  const elapsed =
+    Math.max(
+      1,
+      Math.round(performance.now() - start)
+    );
+
+  updateReport(currentFindings,elapsed);
+  renderFindings();
+  saveHistory(currentFindings,elapsed);
+
+  setStatus(
+    "ready",
+    "Scan complete • " +
+    currentFindings.length +
+    " finding" +
+    (currentFindings.length === 1 ? "" : "s")
+  );
+
+  toast(
+    currentFindings.length +
+    " finding" +
+    (currentFindings.length === 1 ? "" : "s") +
+    " detected"
+  );
+}
+
+
+/* =========================================================
+   COPY
+========================================================= */
+
+async function copyText(text){
+
+  if(!text){
+    toast("Nothing to copy");
+    return;
+  }
+
+  try{
+
+    if(navigator.clipboard){
+      await navigator.clipboard.writeText(text);
+      toast("Copied to clipboard");
+      return;
+    }
+
+  }catch{}
+
+  try{
+
+    const temp = document.createElement("textarea");
+
+    temp.value = text;
+    temp.style.position = "fixed";
+    temp.style.left = "-9999px";
+
+    document.body.appendChild(temp);
+
+    temp.focus();
+    temp.select();
+
+    const ok = document.execCommand("copy");
+
+    temp.remove();
+
+    toast(
+      ok
+        ? "Copied to clipboard"
+        : "Copy blocked — use device copy"
+    );
+
+  }catch{
+
+    toast("Copy blocked — use device copy");
+  }
+}
+
+
+/* =========================================================
+   PASTE
+========================================================= */
+
+async function pasteCode(){
+
+  try{
+
+    if(navigator.clipboard){
+
+      const text =
+        await navigator.clipboard.readText();
+
+      if(text){
+
+        codeEl.value = text;
+
+        toast("Pasted from clipboard");
+
+        return;
+      }
+    }
+
+  }catch{}
+
+  codeEl.focus();
+
+  toast("Tap the code box and choose Paste");
+}
+
+
+/* =========================================================
+   CLEAR
+========================================================= */
+
+function clearScanner(){
+
+  codeEl.value = "";
+  originalCodeEl.value = "";
+  fixedCodeEl.value = "";
+
+  currentFindings = [];
+
+  scoreNumberEl.textContent = "—";
+  riskTextEl.textContent = "—";
+
+  findingCountEl.textContent = "0";
+  healthValueEl.textContent = "—";
+  confidenceValueEl.textContent = "—";
+  detectedLanguageEl.textContent = "—";
+
+  criticalCountEl.textContent = "0";
+  highCountEl.textContent = "0";
+  mediumCountEl.textContent = "0";
+  lowCountEl.textContent = "0";
+
+  scoreBarEl.style.width = "0%";
+
+  scoreRingEl.style.background =
+    "conic-gradient(#172338 0deg,#172338 360deg)";
+
+  scanTimeEl.textContent = "NOT SCANNED";
+  findingSummaryEl.textContent = "Waiting for your first scan";
+
+  originalCountEl.textContent = "0";
+  resolvedCountEl.textContent = "0";
+  remainingCountEl.textContent = "0";
+  manualCountEl.textContent = "0";
+
+  verificationMessageEl.textContent = "";
+  verificationMessageEl.className = "";
+
+  findingSearchEl.value = "";
+  activeFilter = "all";
+
+  document.querySelectorAll(".filter").forEach(function(button){
+    button.classList.toggle(
+      "active",
+      button.dataset.filter === "all"
+    );
+  });
+
+  findingsEl.innerHTML =
+    '<div class="empty">🛡️ Run a scan to see findings here.</div>';
+
+  setStatus(
+    "ready",
+    "Scanner ready • Local analysis enabled"
+  );
+
+  toast("Scanner cleared");
+}
+
+
+/* =========================================================
+   FIX ENGINE
+========================================================= */
+
+function createFixedCode(original){
+
+  let fixed = original;
+
+  fixed = fixed.replace(
+    /http:\/\/([^\s"'`<>]+)/gi,
+    "https://$1"
+  );
+
+  fixed = fixed.replace(
+    /\.innerHTML\s*=/gi,
+    ".textContent ="
+  );
+
+  fixed = fixed.replace(
+    /^\s*console\.(log|debug|info)\s*\([^;\n]*\)\s*;?\s*$/gmi,
+    "// CyberShield: debug log removed"
+  );
+
+  fixed = fixed.replace(
+    /(\b(?:password|passwd|pwd)\s*=\s*)["'`][^"'`]+["'`]/gi,
+    '$1null /* TODO: load secret securely */'
+  );
+
+  fixed = fixed.replace(
+    /(\b(?:api[_-]?key|token|access[_-]?token|secret[_-]?key)\s*=\s*)["'`][^"'`]+["'`]/gi,
+    '$1null /* TODO: load secret securely */'
+  );
+
+  return fixed;
+}
+
+
+/* =========================================================
+   MESSAGE
+========================================================= */
+
+function showMessage(type,message){
+
+  verificationMessageEl.className =
+    "message " + type;
+
+  verificationMessageEl.textContent =
+    message;
+}
+
+
+/* =========================================================
+   FIX CODE
+========================================================= */
+
+function fixCode(){
+
+  const original = codeEl.value;
+
+  if(!original.trim()){
+
+    showMessage(
+      "warning",
+      "Paste code before using Fix My Code."
+    );
+
+    toast("Paste code first");
+
+    return;
+  }
+
+  currentLanguage =
+    detectLanguage(original,fileNameEl.value);
+
+  const before =
+    analyze(original,currentLanguage);
+
+  const fixed =
+    createFixedCode(original);
+
+  const after =
+    analyze(fixed,currentLanguage);
+
+  originalCodeEl.value = original;
+  fixedCodeEl.value = fixed;
+
+  originalCountEl.textContent = before.length;
+
+  resolvedCountEl.textContent =
+    Math.max(
+      0,
+      before.length - after.length
+    );
+
+  remainingCountEl.textContent =
+    after.length;
+
+  manualCountEl.textContent =
+    before.filter(function(f){
+      return !f.rule.fixable;
+    }).length;
+
+  showMessage(
+    "success",
+    "Fix proposal generated locally. Review the proposed code before using it."
+  );
+
+  fixPanelEl.scrollIntoView({
+    behavior:"smooth",
+    block:"start"
+  });
+
+  fixPanelEl.classList.remove("flash");
+
+  setTimeout(function(){
+    fixPanelEl.classList.add("flash");
+  },30);
+
+  toast("Fix proposal generated");
+}
+
+
+/* =========================================================
+   VERIFY
+========================================================= */
+
+function verifyFix(){
+
+  const code = fixedCodeEl.value;
+
+  if(!code.trim()){
+
+    showMessage(
+      "warning",
+      "No proposed code available."
+    );
+
+    toast("Nothing to verify");
+
+    return;
+  }
+
+  const findings =
+    analyze(code,currentLanguage);
+
+  remainingCountEl.textContent =
+    findings.length;
+
+  if(!findings.length){
+
+    showMessage(
+      "success",
+      "Verification complete — no current scanner rules were triggered."
+    );
+
+    toast("Verification passed");
+
+  }else{
+
+    showMessage(
+      "warning",
+      findings.length +
+      " finding" +
+      (findings.length === 1 ? "" : "s") +
+      " remain. Manual review is recommended."
+    );
+
+    toast("Manual review still needed");
+  }
+}
+
+
+/* =========================================================
+   USE FIXED
+========================================================= */
+
+function useFixedCode(){
+
+  if(!fixedCodeEl.value.trim()){
+
+    toast("No fixed code available");
+
+    return;
+  }
+
+  codeEl.value = fixedCodeEl.value;
+
+  scan();
+
+  $("scannerSection").scrollIntoView({
+    behavior:"smooth",
+    block:"start"
+  });
+
+  toast("Fixed code moved to scanner");
+}
+
+
+/* =========================================================
+   DOWNLOAD
+========================================================= */
+
+function downloadFixed(){
+
+  const content = fixedCodeEl.value;
+
+  if(!content.trim()){
+
+    toast("No fixed code to download");
+
+    return;
+  }
+
+  const original =
+    fileNameEl.value || "code.js";
+
+  const dot =
+    original.lastIndexOf(".");
+
+  const name =
+    dot > 0
+      ? original.slice(0,dot) +
+        "-fixed" +
+        original.slice(dot)
+      : original +
+        "-fixed.txt";
+
+  const blob =
+    new Blob(
+      [content],
+      {type:"text/plain;charset=utf-8"}
+    );
+
+  const url =
+    URL.createObjectURL(blob);
+
+  const link =
+    document.createElement("a");
+
+  link.href = url;
+  link.download = name;
+
+  document.body.appendChild(link);
+
+  link.click();
+
+  link.remove();
+
+  setTimeout(function(){
+    URL.revokeObjectURL(url);
+  },1000);
+
+  toast("Fixed code downloaded");
+}
+
+
+/* =========================================================
+   HISTORY
+========================================================= */
+
+function renderHistory(){
+
+  const history = getHistory();
+
+  if(!history.length){
+
+    historyEl.innerHTML =
+      '<div class="empty">No scans stored yet.</div>';
+
+    return;
+  }
+
+  historyEl.innerHTML =
+    history.map(function(item){
+
+      return `
+        <div class="history-item">
+
+          <div>
+
+            <strong>
+              ${escapeHTML(item.file)}
+            </strong>
+
+            <small>
+              • ${escapeHTML(item.language)}
+              • ${item.findings}
+              finding${item.findings === 1 ? "" : "s"}
+            </small>
+
+          </div>
+
+          <div>
+            <strong>${item.score}</strong>
+            <small>/100</small>
+          </div>
+
+        </div>
+      `;
+
+    }).join("");
+}
+
+
+/* =========================================================
+   FOCUS LINE
+========================================================= */
+
+function focusLine(lineNumber){
+
+  const lines =
+    codeEl.value.split("\n");
+
+  if(
+    lineNumber < 1 ||
+    lineNumber > lines.length
+  ){
+    return;
+  }
+
+  let start = 0;
+
+  for(
+    let i = 0;
+    i < lineNumber - 1;
+    i++
+  ){
+    start += lines[i].length + 1;
+  }
+
+  const end =
+    start + lines[lineNumber - 1].length;
+
+  codeEl.focus();
+
+  try{
+    codeEl.setSelectionRange(start,end);
+  }catch{}
+
+  codeEl.scrollIntoView({
+    behavior:"smooth",
+    block:"center"
+  });
+
+  toast("Focused line " + lineNumber);
+}
+
+
+/* =========================================================
+   FILTERS
+========================================================= */
+
+document.querySelectorAll(".filter").forEach(function(button){
+
+  button.addEventListener("click",function(){
+
+    document.querySelectorAll(".filter").forEach(function(item){
+      item.classList.remove("active");
+    });
+
+    button.classList.add("active");
+
+    activeFilter =
+      button.dataset.filter;
+
+    renderFindings();
+  });
+
+});
+
+
+/* =========================================================
+   FINDING ACTIONS
+========================================================= */
+
+findingsEl.addEventListener("click",function(event){
+
+  const button =
+    event.target.closest("button[data-action]");
+
+  if(!button){
+    return;
+  }
+
+  if(button.dataset.action === "focus"){
+
+    focusLine(
+      Number(button.dataset.line)
+    );
+
+    return;
+  }
+
+  if(button.dataset.action === "copy"){
+
+    const finding =
+      currentFindings[
+        Number(button.dataset.index)
+      ];
+
+    if(finding){
+      copyText(finding.match);
+    }
+  }
+});
+
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+findingSearchEl.addEventListener(
+  "input",
+  renderFindings
+);
+
+
+/* =========================================================
+   MAIN BUTTONS
+========================================================= */
+
+$("scanBtn").addEventListener(
+  "click",
+  scan
+);
+
+$("fixBtn").addEventListener(
+  "click",
+  fixCode
+);
+
+$("pasteBtn").addEventListener(
+  "click",
+  pasteCode
+);
+
+$("copyBtn").addEventListener(
+  "click",
+  function(){
+    copyText(codeEl.value);
+  }
+);
+
+$("clearBtn").addEventListener(
+  "click",
+  clearScanner
+);
+
+$("copyFixedBtn").addEventListener(
+  "click",
+  function(){
+    copyText(fixedCodeEl.value);
+  }
+);
+
+$("downloadBtn").addEventListener(
+  "click",
+  downloadFixed
+);
+
+$("useFixedBtn").addEventListener(
+  "click",
+  useFixedCode
+);
+
+$("verifyBtn").addEventListener(
+  "click",
+  verifyFix
+);
+
+$("clearHistoryBtn").addEventListener(
+  "click",
+  function(){
+
+    setHistory([]);
+    renderHistory();
+
+    toast("History cleared");
+  }
+);
+
+
+/* =========================================================
+   HERO BUTTONS
+========================================================= */
+
+$("heroScan").addEventListener(
+  "click",
+  function(){
+
+    $("scannerSection").scrollIntoView({
+      behavior:"smooth",
+      block:"start"
+    });
+
+    setTimeout(function(){
+      codeEl.focus();
+    },400);
+  }
+);
+
+
+$("heroFindings").addEventListener(
+  "click",
+  function(){
+
+    $("findingsSection").scrollIntoView({
+      behavior:"smooth",
+      block:"start"
+    });
+  }
+);
+
+
+/* =========================================================
+   INITIALIZATION
+========================================================= */
+
+renderHistory();
+
+setStatus(
+  "ready",
+  "Scanner ready • Local analysis enabled"
+);
+
+</script>
+
+</body>
+</html>
